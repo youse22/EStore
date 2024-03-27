@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Accueil</title>
+    <style>
+        .navbar {
+            background-color: #333; 
+            padding: 10px 0; 
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center; 
+            position: fixed; 
+            width: 100%;
+            top: 0; 
+            z-index: 1000;
+        }
+        
+        .navbar-nav {
+            list-style-type: none;
+            padding: 0; 
+            display: flex;
+        }
+        
+        .nav-item {
+            margin-right: 20px; 
+        }
+        
+        .nav-link {
+            color: #fff; 
+            text-decoration: none; 
+            font-weight: bold;
+        }
+        
+        .cart-icon {
+            margin-left: auto; 
+            color: #fff;
+            font-size: 24px; 
+        }
+        
+        
+    </style>
+    <!-- navbar.html -->
+    <nav class="navbar">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a href="{% url 'home' %}" class="nav-link">Accueil</a></li>
+            <li class="nav-item"><a href="{% url 'login' %}" class="nav-link">Connexion</a></li>
+            <li class="nav-item"><a href="{% url 'product_page' %}" class="nav-link">Produits</a></li>
+            <li class="fa fa-shopping-cart"><a href="{% url 'cart_page' %}" class="nav-link"><i class="fa fa-shopping-cart"></i></a></li>
+            <!-- Ajoutez d'autres liens de navigation vers vos vues ici -->
+        </ul>
+    </nav>
+
+
+</head>
+<body>
+    <h1>Bienvenue sur notre site !</h1>
+   
+</body>
+</html>

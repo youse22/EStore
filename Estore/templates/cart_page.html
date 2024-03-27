@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        
+        /* Style pour la boîte de chaque produit */
+        .product-box {
+            border: 1px solid black; /* Bordure noire */
+            padding: 10px; /* Espacement intérieur */
+            margin-bottom: 10px; /* Espacement entre les produits */
+            width: 400px; /* Largeur fixe de la boîte */
+        }
+        
+        /* Style pour l'image du produit */
+        .product-box img {
+            width: 100px; /* Largeur de l'image */
+            height: 100px; /* Hauteur de l'image */
+            display: inline-block; /* Permet à l'image d'être à côté du texte */
+            vertical-align: middle; /* Alignement vertical au milieu */
+        }
+        
+        /* Style pour les informations du produit */
+        .product-info {
+            display: inline-block; /* Permet aux informations d'être à côté de l'image */
+            vertical-align: middle; /* Alignement vertical au milieu */
+            margin-left: 10px; /* Espacement à gauche */
+        }
+        
+        /* Style pour le tableau */
+        table {
+            border-collapse: collapse; /* Fusionner les bordures des cellules */
+            width: 100%; /* Largeur du tableau */
+        }
+        
+        /* Style pour les bordures des cellules du tableau */
+        th, td {
+            border: 1px solid black; /* Bordure noire */
+            padding: 8px; /* Espacement intérieur */
+            text-align: left; /* Alignement du texte à gauche */
+        }
+        
+        /* Style pour l'en-tête du tableau */
+        th {
+            background-color: #f2f2f2; /* Couleur de fond gris clair */
+        }
+    </style>
+
+</head>
+<body>
+    <h2>Cart</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td class="product-box">
+                    <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}">
+                    <div class="product-info">
+                        <p>{{ item.product.name }}</p>
+                        <p>Description: {{ item.product.description }}</p>
+                    </div>
+                </td>
+                <td>${{ item.product.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.total_price }}</td>
+                <td>
+                    <form method="post" action="{% url 'update_cart' item.product.id %}">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                        <button type="submit">Update</button>
+                    </form>
+                    <form method="post" action="{% url 'remove_from_cart' item.product.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <!-- Total price -->
+    <p>Total price: ${{ total_price }}</p>
+    
+    <!-- Checkout button -->
+    <form method="post" action="{% url 'checkout' %}">
+        {% csrf_token %}
+        <button type="submit">Checkout</button>
+    </form>
+</body>
+</html>
