@@ -43,6 +43,15 @@
             color: #333; 
             cursor: pointer; 
         }
+        .camera-icon {
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        #upload-image {
+            display: none;
+        }
+        
     </style>
 </head>
 <body>
@@ -61,8 +70,17 @@
     {% endfor %}
     <a href="{% url 'cart_page' %}" class="cart-icon"><i class="fas fa-shopping-cart"></i></a>
     <form action="{% url 'product_search' %}" method="GET">
-    <input type="text" name="q" placeholder="Search...">
-    <button type="submit"><i class="fas fa-search"></i></button>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="search-container">
+                <input type="text" name="query" placeholder="Recherche par nom">
+                <label for="upload-image" class="camera-icon">&#x1F4F7;</label>
+                <input type="file" id="upload-image" name="image" style="display: none;">
+                <button type="submit">Rechercher</button>
+            </div>
+        </form>
+        
+    
 </form>
 
 </body>

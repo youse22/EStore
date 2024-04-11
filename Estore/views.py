@@ -121,7 +121,49 @@ def error_page(request, error_code):
     return render(request, 'error_page.html', {'error': error})
 
 
+from django.shortcuts import render
+from django.http import HttpResponse
+from .models import Product
+import tensorflow as tf
+from PIL import Image 
+
+# Charger le modèle pré-entraîné pour l'extraction de caractéristiques
+model = tf.keras.applications.MobileNetV2(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+
+def extract_features(image):
+    # Prétraitement de l'image
+    img = image.resize((224, 224))
+    img_array = tf.keras.preprocessing.image.img_to_array(img)
+    img_array = tf.keras.applications.mobilenet_v2.preprocess_input(img_array[tf.newaxis,...])
+
+    # Extraction des caractéristiques
+    features = model.predict(img_array)
+
+    return features
+
 def product_search(request):
-    query = request.GET.get('q')
-    products = Product.objects.filter(name__icontains=query)
-    return render(request, 'product_search.html', {'products': products})
+    if request.method == 'POST':
+        uploaded_image = request.FILES.get('image')
+        query = request.POST.get('query')
+
+        if uploaded_image:
+            # Traitez l'image téléchargée pour extraire ses caractéristiques visuelles
+            image = Image.open(uploaded_image)
+            features = extract_features(image)
+
+            # Comparez les caractéristiques de l'image avec celles de vos produits dans la base de données
+            # Recherchez des produits similaires
+            # Renvoyez les résultats à une page de résultats de recherche
+            image_results = None  # Remplacer par la logique de recherche par image
+        else:
+            image_results = None
+
+        if query:
+            # Recherchez les produits correspondant à la requête de l'utilisateur
+            name_results = Product.objects.filter(name__icontains=query)
+        else:
+            name_results = None
+
+        return render(request, 'search_results.html', {'image_results': image_results, 'name_results': name_results, 'query': query})
+
+    return HttpResponse("Méthode non autorisée", status=405)
