@@ -119,3 +119,9 @@ def confirmation_page(request):
 def error_page(request, error_code):
     error = ErrorPage.objects.get(error_code=error_code)
     return render(request, 'error_page.html', {'error': error})
+
+
+def product_search(request):
+    query = request.GET.get('q')
+    products = Product.objects.filter(name__icontains=query)
+    return render(request, 'product_search.html', {'products': products})

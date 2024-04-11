@@ -1,0 +1,17 @@
+{% if results %}
+    <h2>Résultats de la recherche pour "{{ query }}" :</h2>
+    {% for product in products %}
+    <div class="product-box">
+        <img src="{{ product.image_url }}" alt="{{ product.name }}">
+        <h3>{{ product.name }}</h3>
+        <p>Description: {{ product.description }}</p>
+        <p>Price: ${{ product.price }}</p>
+        <form method="post" action="{% url 'add_to_cart' product.id %}">
+            {% csrf_token %}
+            <button type="submit">Add to Cart</button>
+        </form>
+    </div>
+    {% endfor %}
+{% else %}
+    <p>Aucun résultat trouvé pour "{{ query }}".</p>
+{% endif %}

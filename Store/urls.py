@@ -18,7 +18,7 @@ from django import views
 from django.contrib import admin
 from django.urls import path
 
-from Estore.views import add_to_cart, cart_page, checkout, confirmation_page, create_account, error_page, home, login, product_page, remove_from_cart, update_cart
+from Estore.views import add_to_cart, cart_page, checkout, confirmation_page, create_account, error_page, home, login, product_page, product_search, remove_from_cart, update_cart
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,6 +34,7 @@ urlpatterns = [
     path('checkout/', checkout, name='checkout'),
     path('confirmation/', confirmation_page, name='confirmation_page'),
     path('error/<str:error_code>/', error_page, name='error_page'),
+    path('product-search/', product_search, name='product_search'),
 ]
 
 
